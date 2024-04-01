@@ -1,7 +1,7 @@
 import { transformImage } from "../../lib/features";
 import { FileOpen as FileOpenIcon } from '@mui/icons-material';
 
-export const Render = ({ file, url }) => {
+ const Render = ({ file, url }) => {
   switch (file) {
     case "video":
       return <video src={url} controls preload="none" width={"200px"} />;
@@ -26,3 +26,5 @@ export const Render = ({ file, url }) => {
       return <FileOpenIcon />;
   }
 };
+
+export default Render

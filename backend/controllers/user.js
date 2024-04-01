@@ -9,7 +9,7 @@ import {
   cookieOptions,
   emitEvent,
   sendToken,
-  //uploadFilesToCloudinary,
+  uploadFilesToCloudinary,
 } from "../utils/features.js";
 import { ErrorHandler } from "../utils/utility.js";
 

@@ -1,86 +1,95 @@
-import  {  Button, Container, Paper, TextField, Typography} from '@mui/material';
+import { useInputValidation } from "6pp";
+import {
+  Button,
+  Container,
+  Paper,
+  TextField,
+  Typography
+} from "@mui/material";
+import  { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Navigate } from "react-router-dom";
+import { bgGradient } from "../../constants/color";
+import { adminLogin, getAdmin } from "../../redux/thunks/admin";
 
-import { bgGradient } from '../../constants/color';
-import { useInputValidation } from '6pp';
-import { Navigate } from 'react-router-dom';
-
-const isAdmin =true
 const AdminLogin = () => {
+  const { isAdmin } = useSelector((state) => state.auth);
 
-  const secretKey =  useInputValidation('');
+  const dispatch = useDispatch();
 
-  const submitHandler=(e)=>{
+  const secretKey = useInputValidation("");
+
+  const submitHandler = (e) => {
     e.preventDefault();
-    console.log("submitted");
-  }
+    dispatch(adminLogin(secretKey.value));
+  };
 
+  useEffect(() => {
+    dispatch(getAdmin());
+  }, [dispatch]);
 
-  if(isAdmin) return <Navigate to="/admin/dashboard" />;
+  if (isAdmin) return <Navigate to="/admin/dashboard" />;
 
   return (
     <div
-    style={{
-      backgroundImage:bgGradient
-    }}
-    >
-      
-
-    <Container component={"main"} maxWidth="xs" sx={{
-      height:"100vh",
-      display:"flex",
-      flexDirection:"column", 
-      justifyContent:"center",alignItems:"center",
-    }}  >
-      <Paper elevation={3}
-      sx={{
-        padding: 4,
-        display: "flex",
-        flexDirection:"column",
-        alignItems: "center",
+      style={{
+        backgroundImage: bgGradient,
       }}
+    >
+      <Container
+        component={"main"}
+        maxWidth="xs"
+        sx={{
+          height: "100vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
       >
-        
-            <Typography variant="h5" gutterBottom>Admin Login</Typography>
-            <form style={{
-              width:"100%",
-              marginTop: "1rem"
+        <Paper
+          elevation={3}
+          sx={{
+            padding: 4,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <Typography variant="h5">Admin Login</Typography>
+          <form
+            style={{
+              width: "100%",
+              marginTop: "1rem",
             }}
             onSubmit={submitHandler}
-            >
-
-             <TextField
+          >
+            <TextField
               required
               fullWidth
-              label="secret Key"
-              type='password'
-              margin='normal'
-              variant='outlined'
+              label="Secret Key"
+              type="password"
+              margin="normal"
+              variant="outlined"
               value={secretKey.value}
               onChange={secretKey.changeHandler}
-              />
+            />
 
-              <Button
+            <Button
               sx={{
-                marginTop:"1rem"
+                marginTop: "1rem",
               }}
+              variant="contained"
+              color="primary"
+              type="submit"
               fullWidth
-               variant='contained'
-               color='primary'
-               type='submit'
-               >
-                Login
-               </Button>
-               
-              
-               
-            </form>
-           
-
-        
-      </Paper>
-    </Container>
+            >
+              Login
+            </Button>
+          </form>
+        </Paper>
+      </Container>
     </div>
-  )
-}
+  );
+};
 
-export default AdminLogin
+export default AdminLogin;

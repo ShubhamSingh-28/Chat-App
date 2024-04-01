@@ -2,7 +2,7 @@ import { Button, Dialog, DialogActions, DialogContent, DialogContentText, Dialog
 
 const ConfirmDeleteDialog = ({open, handleClose, deleteHandler}) => {
   return (
-    <Dialog open onClose={handleClose} >
+    <Dialog open={open} onClose={handleClose} >
         <DialogTitle>confirm Delete</DialogTitle>
         <DialogContent>
             <DialogContentText>

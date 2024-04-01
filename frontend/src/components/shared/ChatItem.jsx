@@ -1,51 +1,55 @@
 /* eslint-disable react-refresh/only-export-components */
-import { Box, Stack, Typography } from "@mui/material";
+import  { memo } from "react";
 import { Link } from "../../assets/StyledComponents";
-import { memo } from "react";
+import { Box, Stack, Typography } from "@mui/material";
 import AvatarCard from "./AvatarCard";
+import { motion } from "framer-motion";
 
 const ChatItem = ({
-  avatar = null, // Initialize as null if optional
+  avatar = [],
   name,
   _id,
   groupChat = false,
-  isOnline,
   sameSender,
+  isOnline,
   newMessageAlert,
   index = 0,
   handleDeleteChat,
 }) => {
-  const chatItemStyles = {
-    display: 'flex',
-    gap: "1rem",
-    alignItems: 'center',
-    padding: "1rem",
-    borderBottom: "1px solid #f0f0f0",
-    backgroundColor: sameSender ? "black" : "unset",
-    color: sameSender ? "white" : "unset",
-    position: "relative",
-  };
-
   return (
     <Link
-      style={{ padding: "0" }} // Use style prop for inline styles
+      sx={{
+        padding: "0",
+      }}
       to={`/chat/${_id}`}
       onContextMenu={(e) => handleDeleteChat(e, _id, groupChat)}
     >
-      <div style={chatItemStyles}>
-       <AvatarCard avatar={avatar}/>
+      <motion.div
+        initial={{ opacity: 0, y: "-100%" }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.1 * index }}
+        style={{
+          display: "flex",
+          gap: "1rem",
+          alignItems: "center",
+          backgroundColor: sameSender ? "black" : "unset",
+          color: sameSender ? "white" : "unset",
+          position: "relative",
+          padding: "1rem",
+        }}
+      >
+        <AvatarCard avatar={avatar} />
 
         <Stack>
           <Typography>{name}</Typography>
-          {newMessageAlert && newMessageAlert.count ? (
-  <Typography>{newMessageAlert.count} New Messages</Typography>
-) : null}
-
+          {newMessageAlert && (
+            <Typography>{newMessageAlert.count} New Message</Typography>
+          )}
         </Stack>
 
         {isOnline && (
           <Box
-            style={{
+            sx={{
               width: "10px",
               height: "10px",
               borderRadius: "50%",
@@ -57,7 +61,7 @@ const ChatItem = ({
             }}
           />
         )}
-      </div>
+      </motion.div>
     </Link>
   );
 };
