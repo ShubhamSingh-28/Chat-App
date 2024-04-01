@@ -5,14 +5,14 @@ import React, {
   useRef,
   useState,
 } from "react";
-import AppLayout from "../components/layout/AppLayout";
+import AppLayout from "../components/Applayout/AppLayout";
 import { IconButton, Skeleton, Stack } from "@mui/material";
 import { grayColor, orange } from "../constants/color";
 import {
   AttachFile as AttachFileIcon,
   Send as SendIcon,
 } from "@mui/icons-material";
-import { InputBox } from "../components/styles/StyledComponents";
+import { InputBox } from "../assets/StyledComponents";
 import FileMenu from "../components/dialogs/FileMenu";
 import MessageComponent from "../components/shared/MessageComponent";
 import { getSocket } from "../socket";
