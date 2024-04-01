@@ -5,7 +5,7 @@ import React, {
   useRef,
   useState,
 } from "react";
-import AppLayout from "../components/Applayout/AppLayout";
+import AppLayout from "../components/Applayout/AppLayOut";
 import { IconButton, Skeleton, Stack } from "@mui/material";
 import { grayColor, orange } from "../constants/color";
 import {
