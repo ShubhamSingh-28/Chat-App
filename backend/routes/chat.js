@@ -1,20 +1,72 @@
+
 import express from "express";
+import {
+  addMembers,
+  deleteChat,
+  getChatDetails,
+  getMessages,
+  getMyChats,
+  getMyGroups,
+  leaveGroup,
+  newGroup,
+  removeMember,
+ renameGroup,
+  sendAttachments,
+} from "../controllers/chat.js";
+import {
+  addMemberValidator,
+  chatIdValidator,
+  newGroupValidator,
+  removeMemberValidator,
+  renameValidator,
+  sendAttachmentsValidator,
+  validateHandler,
+} from "../lib/validators.js";
 import { isAuthenticated } from "../middlewares/auth.js";
-import { addMembers, getMyChats, getMyGroups, leaveGroup, newGroup, removemember } from "../controllers/chat.js";
+import { attachmentsMulter } from "../middlewares/multer.js";
 
 const app = express.Router();
 
-// After  logging in the user will be redirected to his profile page where he can see all of his data and also update it if neededexport default app; 
-app.use(isAuthenticated) ;
+// After here user must be logged in to access the routes
 
-app.post('/new', newGroup);
-app.get('/my', getMyChats);
-app.get('/my/groups', getMyGroups);
-app.put('/addmembers', addMembers);
+app.use(isAuthenticated);
 
-app.put('/removemember', removemember);
+app.post("/new", newGroupValidator(), validateHandler, newGroup);
 
-app.delete('/leave/:id', leaveGroup);
+app.get("/my", getMyChats);
+
+app.get("/my/groups", getMyGroups);
+
+app.put("/addmembers", addMemberValidator(), validateHandler, addMembers);
+
+app.put(
+  "/removemember",
+  removeMemberValidator(),
+  validateHandler,
+  removeMember
+);
+
+app.delete("/leave/:id", chatIdValidator(), validateHandler, leaveGroup);
+
+// Send Attachments
 
 
-  export default app;
+app.post(
+  "/message",
+  attachmentsMulter,
+  sendAttachmentsValidator(),
+  validateHandler,
+  sendAttachments
+);
+
+// Get Messages
+app.get("/message/:id", chatIdValidator(), validateHandler, getMessages);
+
+// Get Chat Details, rename,delete
+app
+  .route("/:id")
+  .get(chatIdValidator(), validateHandler, getChatDetails)
+  .put(renameValidator(), validateHandler, renameGroup)
+  .delete(chatIdValidator(), validateHandler, deleteChat);
+
+export default app;

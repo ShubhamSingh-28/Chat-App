@@ -2,20 +2,29 @@ import mongoose, { Schema, model, Types } from "mongoose";
 
 const schema = new Schema(
   {
-    status: {
-      type: String,
-      default: "pending",
-      enum: ["pending", "accepted", "rejected"],
-    },
+    content: String,
+
+    attachments: [
+      {
+        public_id: {
+          type: String,
+          required: true,
+        },
+        url: {
+          type: String,
+          required: true,
+        },
+      },
+    ],
 
     sender: {
       type: Types.ObjectId,
       ref: "User",
       required: true,
     },
-    receiver: {
+    chat: {
       type: Types.ObjectId,
-      ref: "User",
+      ref: "Chat",
       required: true,
     },
   },
@@ -24,4 +33,4 @@ const schema = new Schema(
   }
 );
 
-export const Request = mongoose.models.Request || model("Request", schema);
+export const Message = mongoose.models.Message || model("Message", schema);
