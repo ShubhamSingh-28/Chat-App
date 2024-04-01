@@ -18,7 +18,7 @@ import {
   } from "@mui/material";
   import  { useState } from "react";
   import { Link as LinkComponent, Navigate, useLocation } from "react-router-dom";
-  import { grayColor, matBlack } from "../../constants/color";
+  import { grayColor, metBlack } from "../../constants/color";
   import { useDispatch, useSelector } from "react-redux";
   import { adminLogout } from "../../redux/thunks/admin";
   
@@ -76,7 +76,7 @@ import {
               to={tab.path}
               sx={
                 location.pathname === tab.path && {
-                  bgcolor: matBlack,
+                  bgcolor: metBlack,
                   color: "white",
                   ":hover": { color: "white" },
                 }
